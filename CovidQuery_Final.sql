@@ -113,8 +113,8 @@ ORDER BY 1, 2, 3
 -- Must cast new_vaccinations as BIGINT because it exceeds max int.
 SELECT deaths.continent, deaths.location, deaths.date, deaths.population, vaccinations.new_vaccinations, SUM(cast(vaccinations.new_vaccinations as bigint)) OVER (Partition by deaths.location ORDER BY deaths.location, deaths.date) as RollingPeopleVaccinated
 -- , (RollingPeopleVaccinated/population)*100
-/* You can't call a column you just made, so you'll need to make a CTE or temp table
-	Partition by location : the aggregate count will stop and start over at each location so it doesn't total everything */
+/* You cannot call a column you just made, so you'll need to make a CTE or temp table
+	Partition by location : the aggregate count will stop and start over at each location so it does not total everything */
 FROM portfolio.dbo.CovidDeaths as deaths
 JOIN portfolio.dbo.CovidVaccinations as vaccinations
   ON deaths.location = vaccinations.location
